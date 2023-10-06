@@ -11,13 +11,13 @@ datasource db {
 }
 
 model User {
-  id       String  @id @default(uuid())
-  name     String  @db.VarChar(35)
-  email    String  @db.VarChar(30)
-  username String  @db.VarChar(10)
-  password String  @db.VarChar(20)
-  Tweets   Tweet[]
+  id       String @id @default(uuid())
+  name     String @db.VarChar(35)
+  email    String @db.VarChar(30)
+  username String @db.VarChar(10)
+  password String @db.VarChar(20)
 
+  Tweets   Tweet[]
   Retweet  Retweet[]
   Follower Follower[] @relation("follower")
   Followed Follower[] @relation("followed")
