@@ -13,6 +13,7 @@ class UserService {
         email: user.email,
         username: user.username,
         password: user.password,
+        token: user.token,
       },
     });
 
@@ -21,6 +22,26 @@ class UserService {
       message: "User created successfully",
       data: createdUser,
     };
+  }
+
+  public async getByUsernameAndPassword(username: string, password: string) {
+    const user = await repository.user.findFirst({
+      where: {
+        username: username,
+        password: password,
+      },
+    });
+    return user;
+  }
+
+  public async getByToken(token: string) {
+    const user = await repository.user.findUnique({
+      where: {
+        token: token,
+      },
+    });
+
+    return user;
   }
 
   public async listAll(): Promise<ResponseDto> {
@@ -43,6 +64,7 @@ class UserService {
         email: data.email,
         username: data.username,
         password: data.password,
+        token: data.token,
       },
     });
 
@@ -54,6 +76,12 @@ class UserService {
   }
 
   public async delete(id: string): Promise<ResponseDto> {
+    await repository.tweet.deleteMany({
+      where: {
+        userId: id,
+      },
+    });
+
     await repository.user.delete({
       where: {
         id,

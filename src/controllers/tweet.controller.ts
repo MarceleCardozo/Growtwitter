@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import tweetService from "../services/tweet.service";
+import { FoundTweetDTO } from "../dtos/tweet.dto";
 
 export default class TweetController {
   public async create(req: Request, res: Response) {
@@ -55,9 +56,15 @@ export default class TweetController {
 
   public async delete(req: Request, res: Response) {
     try {
+      const { userId } = req.body;
       const { id } = req.params;
 
-      const result = await tweetService.delete(id);
+      const tweetDTO: FoundTweetDTO = {
+        userId,
+        id,
+      };
+
+      const result = await tweetService.delete(tweetDTO);
 
       return res.status(result.code).send(result);
     } catch (error: any) {

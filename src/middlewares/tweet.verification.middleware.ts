@@ -1,24 +1,25 @@
 import { NextFunction, Request, Response } from "express";
 import repository from "../database/prisma.database";
 
-async function userVerificationMiddleware(
+async function tweetVerificationMiddleware(
   req: Request,
   res: Response,
   next: NextFunction
 ) {
-  const { id } = req.params;
-
   try {
-    const user = await repository.user.findUnique({
+    const { userId, id } = req.params;
+
+    const tweet = await repository.tweet.findUnique({
       where: {
         id: String(id),
+        userId: String(userId),
       },
     });
 
-    if (!user) {
+    if (!tweet) {
       return {
         code: 404,
-        message: "User not found",
+        message: "Tweet not found",
       };
     }
 
@@ -31,4 +32,4 @@ async function userVerificationMiddleware(
   }
 }
 
-export default userVerificationMiddleware;
+export default tweetVerificationMiddleware;

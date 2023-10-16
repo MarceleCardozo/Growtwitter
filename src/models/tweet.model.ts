@@ -2,6 +2,7 @@ import { v4 as uuid } from "uuid";
 
 export class Tweet {
   private _id: string;
+
   constructor(
     private _content: string,
     private _type: string,

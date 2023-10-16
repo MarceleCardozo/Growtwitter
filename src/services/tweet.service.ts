@@ -1,6 +1,10 @@
 import repository from "../database/prisma.database";
 import { ResponseDto } from "../dtos/response.dto";
-import { CreateTweetDto, UpdateTweetDto } from "../dtos/tweet.dto";
+import {
+  CreateTweetDto,
+  FoundTweetDTO,
+  UpdateTweetDto,
+} from "../dtos/tweet.dto";
 import { Tweet } from "../models/tweet.model";
 
 class TweetService {
@@ -59,10 +63,11 @@ class TweetService {
     };
   }
 
-  public async delete(id: string): Promise<ResponseDto> {
-    await repository.tweet.delete({
+  public async delete(data: FoundTweetDTO): Promise<ResponseDto> {
+    const deleted = await repository.tweet.delete({
       where: {
-        id,
+        userId: data.userId,
+        id: data.id,
       },
     });
 
