@@ -6,27 +6,27 @@ async function authMiddleware(req: Request, res: Response, next: NextFunction) {
     const { token } = req.headers;
 
     if (!token) {
-      return {
+      return res.status(401).json({
         code: 401,
         message: "Authentication token fail",
-      };
+      });
     }
 
     const user = await userService.getByToken(token as string);
 
     if (!user) {
-      return {
+      return res.status(401).json({
         code: 401,
         message: "Authentication token fail",
-      };
+      });
     }
 
     next();
   } catch (error) {
-    return {
+    return res.status(500).json({
       code: 500,
       message: `Internal Server Error: ${error}`,
-    };
+    });
   }
 }
 
