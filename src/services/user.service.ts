@@ -24,10 +24,13 @@ class UserService {
     };
   }
 
-  public async getByUsernameAndPassword(username: string, password: string) {
+  public async getByEmailOrUsernameAndPassword(
+    emailOrUsername: string,
+    password: string
+  ) {
     const user = await repository.user.findFirst({
       where: {
-        username: username,
+        OR: [{ email: emailOrUsername }, { username: emailOrUsername }],
         password: password,
       },
     });

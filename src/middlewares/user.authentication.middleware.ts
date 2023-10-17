@@ -5,12 +5,12 @@ function userAuthenticationMiddleware(
   res: Response,
   next: NextFunction
 ) {
-  const { username, password } = req.body;
+  const { emailOrUsername, password } = req.body;
 
-  if (!username || !password) {
+  if (!emailOrUsername || !password) {
     return res.status(400).send({
       ok: false,
-      message: "Username and/or password were not provided",
+      message: "Identifier and/or password were not provided",
     });
   }
   next();

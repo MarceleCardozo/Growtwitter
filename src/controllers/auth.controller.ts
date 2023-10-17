@@ -5,47 +5,71 @@ import { ResponseDto } from "../dtos/response.dto";
 
 export default class AuthController {
   public async create(req: Request, res: Response) {
-    const { username, password } = req.body;
+    try {
+      const { emailOrUsername, password } = req.body;
 
-    const user = await userService.getByUsernameAndPassword(username, password);
+      const user = await userService.getByEmailOrUsernameAndPassword(
+        emailOrUsername,
+        password
+      );
 
-    const token = tokenGenerate();
-    const update = await userService.update({ ...user, token: token });
+      if (user) {
+        const token = tokenGenerate();
+        const update = await userService.update({ ...user, token: token });
 
-    const response: ResponseDto = {
-      code: 200,
-      message: "Login success",
-      data: {
-        token: token,
-      },
-    };
+        const response: ResponseDto = {
+          code: 200,
+          message: "Login success",
+          data: {
+            token: token,
+          },
+        };
 
-    if (update.code === 200) {
-      return res.status(response.code).send(response);
+        if (update.code === 200) {
+          return res.status(response.code).send(response);
+        }
+      } else {
+        const notFoundResponse: ResponseDto = {
+          code: 404,
+          message: "User not found",
+        };
+        return res.status(notFoundResponse.code).send(notFoundResponse);
+      }
+    } catch (error: any) {
+      res.status(500).send({
+        ok: false,
+        message: error.toString(),
+      });
     }
   }
 
   public async delete(req: Request, res: Response) {
-    const { token } = req.headers;
+    try {
+      const { token } = req.headers;
 
-    const user = await userService.getByToken(token as string);
+      const user = await userService.getByToken(token as string);
 
-    if (user) {
-      const response: ResponseDto = {
-        code: 200,
-        message: "Logout success",
-      };
+      if (user) {
+        const response: ResponseDto = {
+          code: 200,
+          message: "Logout success",
+        };
 
-      await userService.update({ ...user, token: null });
+        await userService.update({ ...user, token: null });
 
-      return res.status(response.code).send(response);
+        return res.status(response.code).send(response);
+      } else {
+        const notFoundResponse: ResponseDto = {
+          code: 404,
+          message: "Logout not found",
+        };
+        return res.status(notFoundResponse.code).send(notFoundResponse);
+      }
+    } catch (error: any) {
+      res.status(500).send({
+        ok: false,
+        message: error.toString(),
+      });
     }
-
-    const response: ResponseDto = {
-      code: 404,
-      message: "Logout not found",
-    };
-
-    return res.status(response.code).send(response);
   }
 }
