@@ -22,6 +22,21 @@ export default class UserController {
     }
   }
 
+  public async getById(req: Request, res: Response) {
+    try {
+      const { userID } = req.body;
+
+      const result = await userService.getById(userID);
+
+      return res.status(200).send(result);
+    } catch (error: any) {
+      res.status(500).send({
+        ok: false,
+        message: error.toString(),
+      });
+    }
+  }
+
   public async list(req: Request, res: Response) {
     try {
       const result = await userService.listAll();

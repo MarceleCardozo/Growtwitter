@@ -44,6 +44,16 @@ class UserService {
     return user;
   }
 
+  public async getById(id: string) {
+    const result = await repository.user.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    return result;
+  }
+
   public async listAll(): Promise<ResponseDto> {
     const data = await repository.user.findMany();
 
@@ -76,6 +86,12 @@ class UserService {
   }
 
   public async delete(id: string): Promise<ResponseDto> {
+    await repository.like.deleteMany({
+      where: {
+        userId: id,
+      },
+    });
+
     await repository.tweet.deleteMany({
       where: {
         userId: id,

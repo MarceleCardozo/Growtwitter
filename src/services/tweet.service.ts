@@ -26,6 +26,16 @@ class TweetService {
     };
   }
 
+  public async showUniqueTweet(id: string) {
+    const result = await repository.tweet.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    return result;
+  }
+
   public async listByIdUser(userId: string): Promise<ResponseDto> {
     const data = await repository.tweet.findMany({
       where: {
@@ -51,10 +61,6 @@ class TweetService {
         type: data.type,
       },
     });
-
-    console.log("depois");
-
-    console.log(updatedTweet);
 
     return {
       code: 200,

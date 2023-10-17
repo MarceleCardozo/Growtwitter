@@ -3,7 +3,7 @@ import { v4 as tokenGenerate } from "uuid";
 import userService from "../services/user.service";
 import { ResponseDto } from "../dtos/response.dto";
 
-class AuthController {
+export default class AuthController {
   public async create(req: Request, res: Response) {
     const { username, password } = req.body;
 
@@ -49,5 +49,3 @@ class AuthController {
     return res.status(response.code).send(response);
   }
 }
-
-export default AuthController;
