@@ -61,12 +61,13 @@ class TweetService {
           },
         },
       },
-      // orderBy: [
-      //   {
-      //     createdAt: "desc",
-      //   },
-      // ],
+      orderBy: [
+        {
+          createdAt: "desc",
+        },
+      ],
     });
+
     return {
       code: 200,
       message: "Tweets successfully listed",
