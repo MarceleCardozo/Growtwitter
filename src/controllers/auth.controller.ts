@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, response } from "express";
 import { v4 as tokenGenerate } from "uuid";
 import userService from "../services/user.service";
 import { ResponseDto } from "../dtos/response.dto";

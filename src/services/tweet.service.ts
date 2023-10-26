@@ -36,6 +36,47 @@ class TweetService {
     return result;
   }
 
+  public async list(userID: string): Promise<ResponseDto> {
+    const result = await repository.tweet.findMany({
+      include: {
+        User: {
+          select: {
+            id: true,
+            username: true,
+            name: true,
+            LikesToUser: {
+              select: {
+                id: true,
+                tweetId: true,
+                userId: true,
+              },
+              where: {
+                userId: userID,
+              },
+            },
+          },
+        },
+        Likes: {
+          select: {
+            id: true,
+            userId: true,
+            tweetId: true,
+          },
+        },
+      },
+      // orderBy: [
+      //   {
+      //     createdAt: "desc",
+      //   },
+      // ],
+    });
+    return {
+      code: 200,
+      message: "Tweets successfully listed",
+      data: result,
+    };
+  }
+
   public async listByIdUser(userId: string): Promise<ResponseDto> {
     const data = await repository.tweet.findMany({
       where: {

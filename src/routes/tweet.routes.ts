@@ -6,7 +6,8 @@ export const tweetRoutes = () => {
   const router = Router();
 
   router.post("/:userId", [authMiddleware], new TweetController().create);
-  router.get("/:userId", [authMiddleware], new TweetController().list);
+  router.get("/:userId", [authMiddleware], new TweetController().listByIdUser);
+  router.get("/", authMiddleware, new TweetController().list);
   router.put("/:userId/:id", [authMiddleware], new TweetController().update);
   router.delete("/:id", [authMiddleware], new TweetController().delete);
 
