@@ -21,8 +21,7 @@ export default class TweetController {
 
   public async list(req: Request, res: Response) {
     try {
-      const { userID } = req.body;
-      const result = await tweetService.list(userID);
+      const result = await tweetService.list();
 
       return res.status(result.code).send(result);
     } catch (error: any) {

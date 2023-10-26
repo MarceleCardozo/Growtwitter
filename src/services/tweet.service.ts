@@ -36,7 +36,7 @@ class TweetService {
     return result;
   }
 
-  public async list(userID: string): Promise<ResponseDto> {
+  public async list(): Promise<ResponseDto> {
     const result = await repository.tweet.findMany({
       include: {
         User: {
@@ -49,9 +49,6 @@ class TweetService {
                 id: true,
                 tweetId: true,
                 userId: true,
-              },
-              where: {
-                userId: userID,
               },
             },
           },
