@@ -3,7 +3,7 @@ import userService from "../services/user.service";
 
 async function authMiddleware(req: Request, res: Response, next: NextFunction) {
   try {
-    const { token } = req.headers;
+    const token = req.headers.authorization;
 
     if (!token) {
       return res.status(401).json({
@@ -12,7 +12,7 @@ async function authMiddleware(req: Request, res: Response, next: NextFunction) {
       });
     }
 
-    const user = await userService.getByToken(token as string);
+    const user = await userService.getByToken(token);
 
     if (!user) {
       return res.status(401).json({
