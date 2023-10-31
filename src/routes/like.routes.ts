@@ -6,10 +6,10 @@ export const likeRoutes = () => {
   const router = Router();
   const controller = new likeController();
 
-  router.post("/", [authMiddleware], new likeController().create);
-  router.get("/:tweetId", [authMiddleware], new likeController().list);
-  router.get("/", [authMiddleware], new likeController().listAllByUser);
-  router.delete("/", [authMiddleware], new likeController().delete);
+  router.post("/", [authMiddleware], controller.create);
+  router.get("/:tweetId", [authMiddleware], controller.list);
+  router.get("/", [authMiddleware], controller.listAllByUser);
+  router.delete("/", [authMiddleware], controller.delete);
 
   return router;
 };

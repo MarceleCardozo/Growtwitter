@@ -47,14 +47,17 @@ class UserService {
     return user;
   }
 
-  public async getById(id: string) {
-    const result = await repository.user.findUnique({
+  public async getById(id: string): Promise<ResponseDto> {
+    const user = await repository.user.findUnique({
       where: {
         id,
       },
     });
-
-    return result;
+    return {
+      code: 200,
+      message: "User list was successfully",
+      data: user,
+    };
   }
 
   public async listAll(): Promise<ResponseDto> {

@@ -5,6 +5,8 @@ async function authMiddleware(req: Request, res: Response, next: NextFunction) {
   try {
     const token = req.headers.authorization;
 
+    console.log(token);
+
     if (!token) {
       return res.status(401).json({
         code: 401,
@@ -20,6 +22,8 @@ async function authMiddleware(req: Request, res: Response, next: NextFunction) {
         message: "Authentication token fail",
       });
     }
+
+    req.body.userID = user.id;
 
     next();
   } catch (error) {

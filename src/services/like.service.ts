@@ -15,7 +15,7 @@ class LikeService {
 
     const createLike = await repository.like.create({
       data: {
-        userId: user!.id,
+        userId: user.data.id,
         tweetId: tweet!.id,
       },
       include: {
@@ -29,7 +29,7 @@ class LikeService {
 
     return {
       code: 200,
-      message: `User: ${user?.username} liked tweet: '${createLike.TweetId.content}' from user: ${createLike.TweetId.User.username}`,
+      message: `User: ${user.data.username} liked tweet: '${createLike.TweetId.content}' from user: ${createLike.TweetId.User.username}`,
     };
   }
 
