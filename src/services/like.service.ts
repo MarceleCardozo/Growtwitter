@@ -21,11 +21,26 @@ class LikeService {
       include: {
         TweetId: {
           include: {
-            User: true,
+            User: {
+              select: {
+                id: true,
+                name: true,
+                username: true,
+              },
+            },
+          },
+        },
+        UserId: {
+          select: {
+            id: true,
+            username: true,
+            name: true,
           },
         },
       },
     });
+
+    console.log(createLike);
 
     return {
       code: 200,
@@ -34,7 +49,12 @@ class LikeService {
   }
 
   public async list(): Promise<ResponseDto> {
-    const result = await repository.like.findMany();
+    const result = await repository.like.findMany({
+      include: {
+        TweetId: true,
+        UserId: true,
+      },
+    });
 
     return {
       code: 200,
@@ -47,6 +67,13 @@ class LikeService {
     const result = await repository.like.findMany({
       where: {
         userId,
+      },
+      include: {
+        TweetId: {
+          select: {
+            content: true,
+          },
+        },
       },
     });
 
@@ -61,6 +88,13 @@ class LikeService {
     const result = await repository.like.delete({
       where: {
         id,
+      },
+      include: {
+        TweetId: {
+          select: {
+            content: true,
+          },
+        },
       },
     });
 
