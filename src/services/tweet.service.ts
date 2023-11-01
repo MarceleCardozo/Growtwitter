@@ -80,6 +80,34 @@ class TweetService {
       where: {
         userId: userId,
       },
+      include: {
+        User: {
+          select: {
+            id: true,
+            username: true,
+            name: true,
+            LikesToUser: {
+              select: {
+                id: true,
+                tweetId: true,
+                userId: true,
+              },
+            },
+          },
+        },
+        Likes: {
+          select: {
+            id: true,
+            userId: true,
+            tweetId: true,
+          },
+        },
+      },
+      orderBy: [
+        {
+          createdAt: "desc",
+        },
+      ],
     });
 
     return {
