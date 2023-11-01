@@ -9,7 +9,7 @@ export const likeRoutes = () => {
   router.post("/", [authMiddleware], controller.create);
   router.get("/:tweetId", [authMiddleware], controller.list);
   router.get("/", [authMiddleware], controller.listAllByUser);
-  router.delete("/", [authMiddleware], controller.delete);
+  router.delete("/:id", [authMiddleware], controller.delete);
 
   return router;
 };
